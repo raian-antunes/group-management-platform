@@ -18,7 +18,7 @@ type AppSidebarProps = {
 }
 
 const MENU = {
-  user: [{ label: "Criar Intenção", url: "/dashboard/intention" }],
+  user: [{ label: "Editar Perfil", url: "/dashboard/user/edit" }],
   admin: [{ label: "Gerenciar Intenção", url: "/dashboard/intentions" }],
 }
 
