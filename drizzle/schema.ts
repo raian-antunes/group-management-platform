@@ -18,12 +18,14 @@ export const users = pgTable("users", {
   password: text("password").notNull(),
   role: userRoleEnum("role").notNull().default("user"),
   createdAt: timestamp("created_at").defaultNow(),
-  company: text("company").notNull(),
+  company: text("company"),
 })
 
 export const intentions = pgTable("intentions", {
   id: text("id").primaryKey(),
-  userId: text("user_id").notNull(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  company: text("company"),
   motivation: text("motivation").notNull(),
   status: intentionsStatusEnum("status").notNull().default("pending"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -43,13 +45,6 @@ export const announcements = pgTable("announcements", {
 })
 
 // Relations between tables
-export const intentionsRelations = relations(intentions, ({ one }) => ({
-  user: one(users, {
-    fields: [intentions.userId],
-    references: [users.id],
-  }),
-}))
-
 export const invitesRelations = relations(invites, ({ one }) => ({
   intentions: one(intentions, {
     fields: [invites.intentionId],
