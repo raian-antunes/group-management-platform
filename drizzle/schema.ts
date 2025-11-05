@@ -13,13 +13,12 @@ export const userRoleEnum = pgEnum("user_role", ["admin", "user"])
 // Tables
 export const users = pgTable("users", {
   id: text("id").primaryKey(),
-  name: text("name"),
+  name: text("name").notNull(),
   email: text("email").notNull().unique(),
   password: text("password").notNull(),
   role: userRoleEnum("role").notNull().default("user"),
   createdAt: timestamp("created_at").defaultNow(),
-  dateOfBirth: timestamp("date_of_birth"),
-  company: text("company"),
+  company: text("company").notNull(),
 })
 
 export const intentions = pgTable("intentions", {

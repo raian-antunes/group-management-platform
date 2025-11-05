@@ -27,6 +27,7 @@ async function seed() {
       email: "admin@admin.com",
       password: demoPassword,
       role: "admin",
+      company: "Empresa Admin",
     })
     .returning()
     .then((rows) => rows[0])
@@ -39,6 +40,7 @@ async function seed() {
       email: "user@user.com",
       password: demoPassword,
       role: "user",
+      company: "Empresa User",
     })
     .returning()
     .then((rows) => rows[0])
