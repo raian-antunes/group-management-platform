@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@radix-ui/react-label"
 import Link from "next/link"
+import { toast } from "sonner"
 
 const initialState: ActionResponse = {
   success: false,
@@ -33,7 +34,7 @@ const SignupPage = () => {
       const result = await signUp(formData)
 
       if (result.success) {
-        alert("Conta criada com sucesso! Por favor, faça login.")
+        toast("Conta criada com sucesso! Por favor, faça login.")
         router.push("/")
       }
 

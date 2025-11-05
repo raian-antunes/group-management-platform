@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@radix-ui/react-label"
 import Link from "next/link"
+import { toast } from "sonner"
 
 const initialState: ActionResponse = {
   success: false,
@@ -31,11 +32,10 @@ export default function SignInPage() {
     try {
       const result = await signIn(formData)
 
-      console.log("Result:", result)
-
       if (result.success) {
-        alert("Login efetuado com sucesso!.")
-        router.push("/intention")
+        toast("Login efetuado com sucesso!")
+
+        router.push("/dashboard")
       }
 
       return result
