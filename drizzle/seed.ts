@@ -14,7 +14,7 @@ async function seed() {
   await db.delete(users)
 
   // Create demo users
-  const demoPassword = await hash("password123", 10)
+  const demoPassword = await hash("teste123", 10)
 
   const adminUserId = uuidv4()
   const memberUserId = uuidv4()
@@ -23,7 +23,8 @@ async function seed() {
     .insert(users)
     .values({
       id: adminUserId,
-      email: "admin@example.com",
+      name: "Usuário Admin",
+      email: "admin@admin.com",
       password: demoPassword,
       role: "admin",
     })
@@ -34,7 +35,8 @@ async function seed() {
     .insert(users)
     .values({
       id: memberUserId,
-      email: "user@example.com",
+      name: "Usuário User",
+      email: "user@user.com",
       password: demoPassword,
       role: "user",
     })
@@ -42,8 +44,8 @@ async function seed() {
     .then((rows) => rows[0])
 
   console.log("Created demo users:")
-  console.log(`- Admin: ${adminUser.email} (password: password123)`)
-  console.log(`- User: ${memberUser.email} (password: password123)`)
+  console.log(`- Admin: ${adminUser.email} (password: teste123)`)
+  console.log(`- User: ${memberUser.email} (password: teste123)`)
 
   console.log("Database seeding completed!")
   process.exit(0)
