@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import FormUser from "@/components/form/formUser"
+import FormUser from "@/components/layout/form/formUser"
 import { getCurrentUser } from "@/lib/dal"
 
 export default async function EditUserPage() {
