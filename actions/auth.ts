@@ -166,6 +166,6 @@ export async function signOut(): Promise<void> {
     console.error("Sign out error:", error)
     throw new Error("Failed to sign out")
   } finally {
-    redirect("/signin")
+    redirect("/")
   }
 }
