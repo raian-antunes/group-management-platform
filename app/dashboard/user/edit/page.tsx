@@ -10,7 +10,7 @@ export default async function EditUserPage() {
   }
 
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-full max-w-lg">
       <CardHeader>
         <CardTitle>Dados do usuário</CardTitle>
       </CardHeader>

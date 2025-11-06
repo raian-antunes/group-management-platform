@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@radix-ui/react-label"
 import { toast } from "sonner"
 import { User } from "@/drizzle/schema"
-import { Textarea } from "@/components/ui/textarea"
 
 const initialState: ActionResponse = {
   success: false,
@@ -121,10 +120,6 @@ export default function FormUser({ user }: { user: User }) {
           )}
         </div>
 
-        <div className="grid gap-2">
-          <Label htmlFor="message">Your message</Label>
-          <Textarea placeholder="Type your message here." id="message" />
-        </div>
         <Button type="submit" className="w-full" disabled={isPending}>
           Editar dados
         </Button>
