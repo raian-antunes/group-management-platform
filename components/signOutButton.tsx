@@ -15,7 +15,12 @@ export default function SignOutButton() {
   }
 
   return (
-    <Button variant="outline" onClick={handleSignOut} disabled={isPending}>
+    <Button
+      variant="outline"
+      onClick={handleSignOut}
+      disabled={isPending}
+      className="mb-2"
+    >
       {isPending ? (
         <>
           <Spinner />
