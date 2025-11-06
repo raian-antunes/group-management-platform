@@ -18,14 +18,14 @@ export const users = pgTable("users", {
   password: text("password").notNull(),
   role: userRoleEnum("role").notNull().default("user"),
   createdAt: timestamp("created_at").defaultNow(),
-  company: text("company"),
+  company: text("company").notNull(),
 })
 
 export const intentions = pgTable("intentions", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull(),
-  company: text("company"),
+  company: text("company").notNull(),
   motivation: text("motivation").notNull(),
   status: intentionsStatusEnum("status").notNull().default("pending"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -61,9 +61,9 @@ export const announcementsRelations = relations(announcements, ({ one }) => ({
 
 // Types
 export type User = InferSelectModel<typeof users>
-export type Issue = InferSelectModel<typeof intentions>
-export type Invites = InferSelectModel<typeof invites>
-export type Announcements = InferSelectModel<typeof announcements>
+export type Intention = InferSelectModel<typeof intentions>
+export type Invite = InferSelectModel<typeof invites>
+export type Announcement = InferSelectModel<typeof announcements>
 
 // Status and Role Mappings
 export const INTENTIONS_STATUS = {
