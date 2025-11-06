@@ -132,9 +132,6 @@ export const getSession = cache(async () => {
       error instanceof Error &&
       error.message.includes("During prerendering, `cookies()` rejects")
     ) {
-      console.log(
-        "Cookies not available during prerendering, returning null session"
-      )
       return null
     }
 
