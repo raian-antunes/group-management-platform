@@ -1,13 +1,12 @@
 "use client"
 
-import { ActionResponse, updateUser } from "@/actions/user"
-import { useRouter } from "next/navigation"
+import { ActionResponse, createIntention } from "@/actions/intention"
 import { useActionState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@radix-ui/react-label"
 import { toast } from "sonner"
-import { User } from "@/drizzle/schema"
 import { Textarea } from "@/components/ui/textarea"
 
 const initialState: ActionResponse = {
@@ -15,7 +14,7 @@ const initialState: ActionResponse = {
   message: "",
 }
 
-export default function FormUser({ user }: { user: User }) {
+export default function FormIntention() {
   const router = useRouter()
 
   const [state, formAction, isPending] = useActionState<
@@ -23,17 +22,11 @@ export default function FormUser({ user }: { user: User }) {
     FormData
   >(async (prevState: ActionResponse, formData: FormData) => {
     try {
-      const data = {
-        name: formData.get("name") as string,
-        email: formData.get("email") as string,
-        company: formData.get("company") as string,
-      }
-
-      const result = await updateUser(user.id, data)
+      const result = await createIntention(formData)
 
       if (result.success) {
-        toast("Dados atualizados com sucesso!")
-        router.refresh()
+        toast("Intenção enviada com sucesso!")
+        // router.refresh()
       }
 
       return result
@@ -51,18 +44,6 @@ export default function FormUser({ user }: { user: User }) {
     <form action={formAction}>
       <div className="flex flex-col gap-6">
         <div className="grid gap-2">
-          <Label htmlFor="id">ID</Label>
-          <Input
-            id="id"
-            name="id"
-            type="text"
-            defaultValue={user.id}
-            required
-            disabled
-          />
-        </div>
-
-        <div className="grid gap-2">
           <Label htmlFor="name">Nome</Label>
           <Input
             id="name"
@@ -70,7 +51,6 @@ export default function FormUser({ user }: { user: User }) {
             type="text"
             autoComplete="name"
             placeholder="Seu nome"
-            defaultValue={user.name}
             required
             disabled={isPending}
             className={state?.errors?.name ? "border-red-500" : ""}
@@ -89,7 +69,6 @@ export default function FormUser({ user }: { user: User }) {
             type="email"
             autoComplete="email"
             placeholder="email@dominio.com"
-            defaultValue={user.email}
             required
             disabled={isPending}
             className={state?.errors?.email ? "border-red-500" : ""}
@@ -109,7 +88,6 @@ export default function FormUser({ user }: { user: User }) {
             type="text"
             autoComplete="organization"
             placeholder="Nome da empresa"
-            defaultValue={user.company || ""}
             required
             disabled={isPending}
             className={state?.errors?.company ? "border-red-500" : ""}
@@ -122,11 +100,24 @@ export default function FormUser({ user }: { user: User }) {
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="message">Your message</Label>
-          <Textarea placeholder="Type your message here." id="message" />
+          <Label htmlFor="motivation">Por que você quer participar?</Label>
+          <Textarea
+            id="motivation"
+            name="motivation"
+            placeholder="Sua motivação"
+            required
+            disabled={isPending}
+            className={state?.errors?.motivation ? "border-red-500" : ""}
+          />
+          {state?.errors?.motivation && (
+            <p id="motivation-error" className="text-sm text-red-500">
+              {state.errors.motivation[0]}
+            </p>
+          )}
         </div>
+
         <Button type="submit" className="w-full" disabled={isPending}>
-          Editar dados
+          Quero participar
         </Button>
       </div>
     </form>

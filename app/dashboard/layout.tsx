@@ -13,8 +13,8 @@ export default async function DashboardLayout({
   return (
     <SidebarProvider>
       <AppSidebar role={user.role} />
-      <main>
-        <SidebarTrigger />
+      <SidebarTrigger />
+      <main className="flex items-center justify-center h-screen w-full">
         {children}
       </main>
     </SidebarProvider>
