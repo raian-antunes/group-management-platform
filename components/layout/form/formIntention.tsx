@@ -2,7 +2,6 @@
 
 import { ActionResponse, createIntention } from "@/actions/intention"
 import { useActionState } from "react"
-import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@radix-ui/react-label"
@@ -15,8 +14,6 @@ const initialState: ActionResponse = {
 }
 
 export default function FormIntention() {
-  const router = useRouter()
-
   const [state, formAction, isPending] = useActionState<
     ActionResponse,
     FormData
