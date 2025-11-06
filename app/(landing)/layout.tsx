@@ -9,9 +9,6 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
           <Link href="/signin">
             <Button>Entrar</Button>
           </Link>
-          <Link href="/signup">
-            <Button>Inscrever-se</Button>
-          </Link>
         </div>
       </header>
 
