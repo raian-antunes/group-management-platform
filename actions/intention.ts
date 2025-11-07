@@ -1,9 +1,11 @@
 "use server"
 
 import { db } from "@/drizzle/config"
-import { intentions } from "@/drizzle/schema"
+import { intentions, INTENTIONS_STATUS } from "@/drizzle/schema"
 import { z } from "zod"
 import { v4 as uuidv4 } from "uuid"
+import { eq } from "drizzle-orm"
+import { createInvite } from "./invite"
 
 const IntentionSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
@@ -59,6 +61,35 @@ export async function createIntention(
       success: false,
       message: "Erro ao criar intenção",
       error: "Falha ao criar intenção",
+    }
+  }
+}
+
+export async function updateIntentionStatus({
+  id,
+  status,
+}: {
+  id: string
+  status: keyof typeof INTENTIONS_STATUS
+}): Promise<ActionResponse> {
+  try {
+    const [result] = await db
+      .update(intentions)
+      .set({ status: status })
+      .where(eq(intentions.id, id))
+      .returning()
+
+    await createInvite({ intentionId: result.id })
+
+    return {
+      success: true,
+      message: "Status da intenção atualizado com sucesso",
+    }
+  } catch {
+    return {
+      success: false,
+      message: "Erro ao atualizar status da intenção",
+      error: "Falha ao atualizar status da intenção",
     }
   }
 }
