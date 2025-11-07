@@ -1,8 +1,5 @@
 import { compare, hash } from "bcrypt"
-import { nanoid } from "nanoid"
 import { cookies } from "next/headers"
-import { db } from "@/drizzle/config"
-import { users } from "@/drizzle/schema"
 import * as jose from "jose"
 import { cache } from "react"
 
@@ -31,25 +28,6 @@ export async function hashPassword(password: string) {
 // Verify a password
 export async function verifyPassword(password: string, hashedPassword: string) {
   return compare(password, hashedPassword)
-}
-
-// Create a new user
-export async function createUser(email: string, password: string) {
-  const hashedPassword = await hashPassword(password)
-  const id = nanoid()
-
-  try {
-    await db.insert(users).values({
-      id,
-      email,
-      password: hashedPassword,
-    })
-
-    return { id, email }
-  } catch (error) {
-    console.error("Error creating user:", error)
-    return null
-  }
 }
 
 // Generate a JWT token

@@ -1,13 +1,8 @@
 "use server"
 
-import {
-  createSession,
-  createUser,
-  deleteSession,
-  verifyPassword,
-} from "@/lib/auth"
+import { createSession, deleteSession, verifyPassword } from "@/lib/auth"
 import { z } from "zod"
-import { getUserByEmail } from "@/lib/dal/user"
+import { getUserByEmail, createUser } from "@/lib/dal/user"
 import { redirect } from "next/navigation"
 
 const SignInSchema = z.object({
