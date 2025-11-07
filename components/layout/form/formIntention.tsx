@@ -1,6 +1,6 @@
 "use client"
 
-import { ActionResponse, createIntention } from "@/actions/intention"
+import { ActionResponse, createIntention } from "@/lib/actions/intention"
 import { useActionState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"

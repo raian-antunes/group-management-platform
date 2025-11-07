@@ -1,6 +1,6 @@
 "use client"
 
-import { ActionResponse, signUp } from "@/actions/auth"
+import { ActionResponse, signUp } from "@/lib/actions/auth"
 import { useRouter } from "next/navigation"
 import { useActionState } from "react"
 import { Button } from "@/components/ui/button"
@@ -14,7 +14,7 @@ const initialState: ActionResponse = {
   message: "",
 }
 
-export default function FormSignUp() {
+export default function FormSignUp({ token }: { token: string }) {
   const router = useRouter()
 
   const [state, formAction, isPending] = useActionState<
@@ -22,7 +22,7 @@ export default function FormSignUp() {
     FormData
   >(async (prevState: ActionResponse, formData: FormData) => {
     try {
-      const result = await signUp(formData)
+      const result = await signUp(formData, token)
 
       if (result.success) {
         toast("Conta criada com sucesso! Por favor, faça login.")

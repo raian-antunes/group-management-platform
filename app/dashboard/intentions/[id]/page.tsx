@@ -1,4 +1,4 @@
-import { getIntention } from "@/lib/dal"
+import { getIntention } from "@/lib/dal/intention"
 import { notFound, redirect } from "next/navigation"
 import {
   Card,
@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { INTENTIONS_STATUS } from "@/drizzle/schema"
-import { updateIntentionStatus } from "@/actions/intention"
+import { updateIntentionStatus } from "@/lib/actions/intention"
 
 export default async function IntentionPage({
   params,

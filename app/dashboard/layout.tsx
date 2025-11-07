@@ -1,6 +1,6 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/appSidebar"
-import { getCurrentUser } from "@/lib/dal"
+import { getCurrentUser } from "@/lib/dal/user"
 
 export default async function DashboardLayout({
   children,

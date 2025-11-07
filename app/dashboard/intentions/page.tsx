@@ -1,6 +1,6 @@
 import { columns } from "./columns"
 import { DataTable } from "./data-table"
-import { getIntentions } from "@/lib/dal"
+import { getIntentions } from "@/lib/dal/intention"
 import { Intention, INTENTIONS_STATUS } from "@/drizzle/schema"
 
 async function getData(): Promise<Intention[]> {

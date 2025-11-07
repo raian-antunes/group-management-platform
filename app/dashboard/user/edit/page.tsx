@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import FormUser from "@/components/layout/form/formUser"
-import { getCurrentUser } from "@/lib/dal"
+import { getCurrentUser } from "@/lib/dal/user"
 
 export default async function EditUserPage() {
   const user = await getCurrentUser()

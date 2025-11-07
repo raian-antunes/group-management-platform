@@ -1,7 +1,7 @@
 "use client"
 
 import { useTransition } from "react"
-import { signOut } from "@/actions/auth"
+import { signOut } from "@/lib/actions/auth"
 import { Button } from "./ui/button"
 import { Spinner } from "./ui/spinner"
 

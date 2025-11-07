@@ -1,6 +1,6 @@
 "use client"
 
-import { ActionResponse, signIn } from "@/actions/auth"
+import { ActionResponse, signIn } from "@/lib/actions/auth"
 import { useRouter } from "next/navigation"
 import { useActionState } from "react"
 import { Button } from "@/components/ui/button"
