@@ -32,9 +32,11 @@ export const intentions = pgTable("intentions", {
 })
 
 export const invites = pgTable("invites", {
+  id: text("id").primaryKey(),
   token: text("token").notNull().unique(),
   intentionId: text("intention_id").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
+  usedAt: timestamp("used_at"),
 })
 
 export const announcements = pgTable("announcements", {
