@@ -3,9 +3,9 @@
 import { db } from "@/drizzle/config"
 import { intentions, INTENTIONS_STATUS } from "@/drizzle/schema"
 import { z } from "zod"
-import { v4 as uuidv4 } from "uuid"
 import { eq } from "drizzle-orm"
 import { createInvite } from "./invite"
+import { createNewId } from "../utils"
 
 const IntentionSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
@@ -45,7 +45,7 @@ export async function createIntention(
     }
 
     await db.insert(intentions).values({
-      id: uuidv4(),
+      id: createNewId(),
       name: data.name,
       email: data.email,
       company: data.company,

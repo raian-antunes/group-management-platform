@@ -1,8 +1,8 @@
 import "dotenv/config"
 import { hash } from "bcrypt"
 import { db } from "./config"
-import { v4 as uuidv4 } from "uuid"
 import { announcements, intentions, invites, users } from "./schema"
+import { createNewId } from "@/lib/utils"
 
 async function seed() {
   console.log("Starting database seeding...")
@@ -16,8 +16,8 @@ async function seed() {
   // Create demo users
   const demoPassword = await hash("teste123", 10)
 
-  const adminUserId = uuidv4()
-  const memberUserId = uuidv4()
+  const adminUserId = createNewId()
+  const memberUserId = createNewId()
 
   const adminUser = await db
     .insert(users)
@@ -52,7 +52,7 @@ async function seed() {
   await db
     .insert(intentions)
     .values({
-      id: uuidv4(),
+      id: createNewId(),
       name: "Usuário Admin",
       email: "user@user.com",
       company: "Empresa Admin",
@@ -223,7 +223,7 @@ async function seed() {
 
   for (const intention of intentionsData) {
     await db.insert(intentions).values({
-      id: uuidv4(),
+      id: createNewId(),
       ...intention,
       status: intention.status as "pending" | "approved" | "rejected",
     })

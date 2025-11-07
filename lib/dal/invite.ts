@@ -1,8 +1,12 @@
 import { db } from "@/drizzle/config"
-import { invites } from "@/drizzle/schema"
+import { Invite, invites } from "@/drizzle/schema"
 import { eq } from "drizzle-orm"
 
-export const getInvite = async ({ token }: { token: string }) => {
+export const getInvite = async ({
+  token,
+}: {
+  token: string
+}): Promise<Invite | null> => {
   try {
     const [result] = await db
       .select()

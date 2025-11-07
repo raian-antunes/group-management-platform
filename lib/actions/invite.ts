@@ -2,8 +2,8 @@
 
 import { db } from "@/drizzle/config"
 import { invites } from "@/drizzle/schema"
-import { v4 as uuidv4 } from "uuid"
 import { getInvite } from "@/lib/dal/invite"
+import { createNewId } from "../utils"
 
 export type ActionResponse = {
   success: boolean
@@ -18,8 +18,8 @@ export async function createInvite({
   intentionId: string
 }): Promise<ActionResponse> {
   const data = {
-    id: uuidv4(),
-    token: uuidv4(),
+    id: createNewId(),
+    token: createNewId(),
     intentionId,
   }
 
@@ -51,6 +51,10 @@ export async function validateInviteToken(
 
     if (!result) {
       return { success: false, message: "Token de convite inválido." }
+    }
+
+    if (result.usedAt !== null) {
+      return { success: false, message: "Token de convite já foi usado." }
     }
 
     return { success: true, message: "Token de convite válido." }
