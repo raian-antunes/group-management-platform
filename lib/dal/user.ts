@@ -1,13 +1,13 @@
 import { db } from "@/drizzle/config"
-import { User, users } from "@/drizzle/schema"
+import { User, users, USER_ROLE } from "@/drizzle/schema"
 import { eq } from "drizzle-orm"
 import { getSession, hashPassword } from "../auth"
 import { createNewId } from "../utils"
 import { cache } from "react"
 
 export async function createUser(
-  email: string,
-  password: string
+  email: Pick<User, "email">["email"],
+  password: Pick<User, "password">["password"]
 ): Promise<User | null> {
   const hashedPassword = await hashPassword(password)
   const id = createNewId()
@@ -17,8 +17,11 @@ export async function createUser(
       .insert(users)
       .values({
         id,
+        name: "",
         email,
         password: hashedPassword,
+        role: USER_ROLE.user.value,
+        company: "",
       })
       .returning()
 
@@ -47,7 +50,9 @@ export const getCurrentUser = cache(async (): Promise<User | null> => {
   }
 })
 
-export const getUserByEmail = async (email: string): Promise<User | null> => {
+export const getUserByEmail = async (
+  email: Pick<User, "email">["email"]
+): Promise<User | null> => {
   try {
     const [result] = await db.select().from(users).where(eq(users.email, email))
 

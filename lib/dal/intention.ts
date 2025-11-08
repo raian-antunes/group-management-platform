@@ -1,6 +1,29 @@
 import { db } from "@/drizzle/config"
 import { Intention, intentions } from "@/drizzle/schema"
 import { eq } from "drizzle-orm"
+import { createNewId } from "../utils"
+
+export const createIntention = async (
+  data: Omit<Intention, "id">
+): Promise<Intention | null> => {
+  try {
+    const [result] = await db
+      .insert(intentions)
+      .values({
+        id: createNewId(),
+        name: data.name,
+        email: data.email,
+        company: data.company,
+        motivation: data.motivation,
+      })
+      .returning()
+
+    return result
+  } catch (error) {
+    console.log("Error creating the intention:", error)
+    return null
+  }
+}
 
 export const getIntentions = async (): Promise<Array<Intention>> => {
   try {
@@ -12,7 +35,9 @@ export const getIntentions = async (): Promise<Array<Intention>> => {
   }
 }
 
-export const getIntention = async (id: string): Promise<Intention | null> => {
+export const getIntention = async (
+  id: Pick<Intention, "id">["id"]
+): Promise<Intention | null> => {
   try {
     const [result] = await db
       .select()

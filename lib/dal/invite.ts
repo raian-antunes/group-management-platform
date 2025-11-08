@@ -6,7 +6,7 @@ import { createNewId } from "../utils"
 export const getInvite = async ({
   token,
 }: {
-  token: string
+  token: Pick<Invite, "token">["token"]
 }): Promise<Invite | null> => {
   try {
     const [result] = await db
@@ -24,7 +24,7 @@ export const getInvite = async ({
 export const createInvite = async ({
   intentionId,
 }: {
-  intentionId: string
+  intentionId: Pick<Invite, "intentionId">["intentionId"]
 }): Promise<Invite | null> => {
   try {
     const [result] = await db
@@ -42,7 +42,7 @@ export const createInvite = async ({
 export const updateInvite = async ({
   token,
 }: {
-  token: string
+  token: Pick<Invite, "token">["token"]
 }): Promise<Invite | null> => {
   try {
     const [result] = await db

@@ -72,9 +72,9 @@ export const INTENTIONS_STATUS = {
   pending: { label: "Pendente", value: "pending" },
   approved: { label: "Aprovado", value: "approved" },
   rejected: { label: "Rejeitado", value: "rejected" },
-}
+} as const
 
 export const USER_ROLE = {
   user: { label: "Usuário", value: "user" },
   admin: { label: "Administrador", value: "admin" },
-}
+} as const
