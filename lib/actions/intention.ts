@@ -1,17 +1,10 @@
 "use server"
 
 import { Intention } from "@/drizzle/schema"
-import { z } from "zod"
 import { createInviteAction } from "./invite"
 import { createIntention, updateIntentionStatus } from "../dal/intention"
 import { ActionResponse } from "@/types"
-
-const IntentionSchema = z.object({
-  name: z.string().min(1, "Nome é obrigatório"),
-  email: z.string().email("Email inválido"),
-  company: z.string().optional(),
-  motivation: z.string().min(1, "Motivação é obrigatória"),
-})
+import { IntentionSchema } from "../schemas/intention"
 
 export async function createIntentionAction(
   formData: FormData

@@ -1,38 +1,11 @@
 "use server"
 
 import { createSession, deleteSession, verifyPassword } from "@/lib/auth"
-import { z } from "zod"
 import { getUserByEmail, createUser } from "@/lib/dal/user"
 import { redirect } from "next/navigation"
 import { updateInviteAction } from "./invite"
 import { ActionResponse } from "@/types"
-
-const SignInSchema = z.object({
-  email: z.email("Endereço de email inválido").min(1, "O email é obrigatório"),
-  password: z
-    .string()
-    .min(1, "Senha é obrigatória")
-    .min(6, "Senha deve ter ao menos 6 caracteres"),
-})
-
-const SignUpSchema = z
-  .object({
-    email: z
-      .email("Endereço de email inválido")
-      .min(1, "O email é obrigatório"),
-    password: z
-      .string()
-      .min(1, "Senha é obrigatória")
-      .min(6, "Senha deve ter ao menos 6 caracteres"),
-    confirmPassword: z
-      .string()
-      .min(1, "Confirmação de senha é obrigatória")
-      .min(6, "Confirmação de senha deve ter ao menos 6 caracteres"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "As senhas não coincidem",
-    path: ["confirmPassword"],
-  })
+import { SignInSchema, SignUpSchema } from "../schemas/auth"
 
 export async function signInAction(
   formData: FormData
