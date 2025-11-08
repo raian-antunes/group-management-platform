@@ -23,7 +23,7 @@ export async function createInviteAction({
 
     console.log(
       "Acesse-se URL com token para cadastro:",
-      process.env.NEXT_PUBLIC_BASE_URL + "/signUp?token=" + result.token
+      process.env.NEXT_PUBLIC_BASE_URL + "/signup?token=" + result.token
     )
 
     return { success: true, message: "Convite criado com sucesso." }
