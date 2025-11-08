@@ -1,12 +1,14 @@
 "use client"
 
-import { ActionResponse, signInAction } from "@/lib/actions/auth"
+import { signInAction } from "@/lib/actions/auth"
 import { useRouter } from "next/navigation"
 import { useActionState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@radix-ui/react-label"
 import { toast } from "sonner"
+import { ActionResponse } from "@/types"
+import ErrorMessage from "@/components/errorMessage"
 
 const initialState: ActionResponse = {
   success: false,
@@ -55,11 +57,7 @@ export default function FormSignIn() {
             disabled={isPending}
             className={state?.errors?.email ? "border-red-500" : ""}
           />
-          {state?.errors?.email && (
-            <p id="email-error" className="text-sm text-red-500">
-              {state.errors.email[0]}
-            </p>
-          )}
+          <ErrorMessage id="email-error" message={state?.errors?.email} />
         </div>
         <div className="grid gap-2">
           <div className="flex items-center">
@@ -74,11 +72,7 @@ export default function FormSignIn() {
             disabled={isPending}
             className={state?.errors?.password ? "border-red-500" : ""}
           />
-          {state?.errors?.password && (
-            <p id="password-error" className="text-sm text-red-500">
-              {state.errors.password[0]}
-            </p>
-          )}
+          <ErrorMessage id="password-error" message={state?.errors?.password} />
         </div>
         <Button type="submit" className="w-full" disabled={isPending}>
           Entrar

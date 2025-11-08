@@ -2,8 +2,9 @@
 
 import { z } from "zod"
 import { db } from "@/drizzle/config"
-import { users } from "@/drizzle/schema"
+import { User, users } from "@/drizzle/schema"
 import { eq } from "drizzle-orm"
+import { ActionResponse } from "@/types"
 
 const UserSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
@@ -15,18 +16,9 @@ const UserSchema = z.object({
   company: z.string().min(1, "Empresa é obrigatória"),
 })
 
-export type UserData = z.infer<typeof UserSchema>
-
-export type ActionResponse = {
-  success: boolean
-  message: string
-  errors?: Record<string, string[]>
-  error?: string
-}
-
 export async function updateUserAction(
-  userId: string,
-  formData: Partial<UserData>
+  userId: Pick<User, "id">["id"],
+  formData: Omit<User, "id" | "password" | "role" | "createdAt">
 ): Promise<ActionResponse> {
   try {
     const UpdateIssueSchema = UserSchema.partial()

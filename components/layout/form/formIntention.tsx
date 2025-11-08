@@ -1,12 +1,14 @@
 "use client"
 
-import { ActionResponse, createIntentionAction } from "@/lib/actions/intention"
+import { createIntentionAction } from "@/lib/actions/intention"
 import { useActionState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@radix-ui/react-label"
 import { toast } from "sonner"
 import { Textarea } from "@/components/ui/textarea"
+import { ActionResponse } from "@/types"
+import ErrorMessage from "@/components/errorMessage"
 
 const initialState: ActionResponse = {
   success: false,
@@ -23,7 +25,6 @@ export default function FormIntention() {
 
       if (result.success) {
         toast("Intenção enviada com sucesso!")
-        // router.refresh()
       }
 
       return result
@@ -52,11 +53,7 @@ export default function FormIntention() {
             disabled={isPending}
             className={state?.errors?.name ? "border-red-500" : ""}
           />
-          {state?.errors?.name && (
-            <p id="name-error" className="text-sm text-red-500">
-              {state.errors.name[0]}
-            </p>
-          )}
+          <ErrorMessage id="name-error" message={state?.errors?.name} />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
@@ -70,11 +67,7 @@ export default function FormIntention() {
             disabled={isPending}
             className={state?.errors?.email ? "border-red-500" : ""}
           />
-          {state?.errors?.email && (
-            <p id="email-error" className="text-sm text-red-500">
-              {state.errors.email[0]}
-            </p>
-          )}
+          <ErrorMessage id="email-error" message={state?.errors?.email} />
         </div>
 
         <div className="grid gap-2">
@@ -89,11 +82,7 @@ export default function FormIntention() {
             disabled={isPending}
             className={state?.errors?.company ? "border-red-500" : ""}
           />
-          {state?.errors?.company && (
-            <p id="company-error" className="text-sm text-red-500">
-              {state.errors.company[0]}
-            </p>
-          )}
+          <ErrorMessage id="company-error" message={state?.errors?.company} />
         </div>
 
         <div className="grid gap-2">
@@ -106,11 +95,10 @@ export default function FormIntention() {
             disabled={isPending}
             className={state?.errors?.motivation ? "border-red-500" : ""}
           />
-          {state?.errors?.motivation && (
-            <p id="motivation-error" className="text-sm text-red-500">
-              {state.errors.motivation[0]}
-            </p>
-          )}
+          <ErrorMessage
+            id="motivation-error"
+            message={state?.errors?.motivation}
+          />
         </div>
 
         <Button type="submit" className="w-full" disabled={isPending}>

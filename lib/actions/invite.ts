@@ -1,21 +1,14 @@
 "use server"
 
-import { getInvite, createInvite as createInviteDal } from "@/lib/dal/invite"
-
-export type ActionResponse = {
-  success: boolean
-  message: string
-  errors?: Record<string, string[]>
-  error?: string
-}
+import { Invite } from "@/drizzle/schema"
+import { getInvite, createInvite } from "@/lib/dal/invite"
+import { ActionResponse } from "@/types"
 
 export async function createInviteAction({
   intentionId,
-}: {
-  intentionId: string
-}): Promise<ActionResponse> {
+}: Pick<Invite, "intentionId">): Promise<ActionResponse> {
   try {
-    const result = await createInviteDal({ intentionId })
+    const result = await createInvite({ intentionId })
 
     if (!result) {
       return { success: false, message: "Erro ao criar convite." }
@@ -39,9 +32,7 @@ export async function createInviteAction({
 
 export async function updateInviteAction({
   token,
-}: {
-  token: string
-}): Promise<ActionResponse> {
+}: Pick<Invite, "token">): Promise<ActionResponse> {
   try {
     const result = await getInvite({ token })
 
@@ -67,7 +58,7 @@ export async function updateInviteAction({
 }
 
 export async function validateInviteToken(
-  token: string
+  token: Pick<Invite, "token">["token"]
 ): Promise<ActionResponse> {
   try {
     const result = await getInvite({ token })

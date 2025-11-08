@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm"
 import { createNewId } from "../utils"
 
 export const createIntention = async (
-  data: Omit<Intention, "id">
+  data: Omit<Intention, "id" | "createdAt" | "status">
 ): Promise<Intention | null> => {
   try {
     const [result] = await db
@@ -21,6 +21,24 @@ export const createIntention = async (
     return result
   } catch (error) {
     console.log("Error creating the intention:", error)
+    return null
+  }
+}
+
+export const updateIntentionStatus = async ({
+  id,
+  status,
+}: Pick<Intention, "id" | "status">): Promise<Intention | null> => {
+  try {
+    const [result] = await db
+      .update(intentions)
+      .set({ status: status })
+      .where(eq(intentions.id, id))
+      .returning()
+
+    return result
+  } catch (error) {
+    console.log("Error updating the intention:", error)
     return null
   }
 }

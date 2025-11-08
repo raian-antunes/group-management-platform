@@ -1,11 +1,10 @@
 "use server"
 
-import { db } from "@/drizzle/config"
-import { intentions, INTENTIONS_STATUS } from "@/drizzle/schema"
+import { Intention } from "@/drizzle/schema"
 import { z } from "zod"
-import { eq } from "drizzle-orm"
 import { createInviteAction } from "./invite"
-import { createNewId } from "../utils"
+import { createIntention, updateIntentionStatus } from "../dal/intention"
+import { ActionResponse } from "@/types"
 
 const IntentionSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
@@ -13,15 +12,6 @@ const IntentionSchema = z.object({
   company: z.string().optional(),
   motivation: z.string().min(1, "Motivação é obrigatória"),
 })
-
-export type IntentionData = z.infer<typeof IntentionSchema>
-
-export type ActionResponse = {
-  success: boolean
-  message: string
-  errors?: Record<string, string[]>
-  error?: string
-}
 
 export async function createIntentionAction(
   formData: FormData
@@ -44,13 +34,16 @@ export async function createIntentionAction(
       }
     }
 
-    await db.insert(intentions).values({
-      id: createNewId(),
-      name: data.name,
-      email: data.email,
-      company: data.company,
-      motivation: data.motivation,
+    const result = await createIntention({
+      ...data,
     })
+
+    if (!result) {
+      return {
+        success: false,
+        message: "Erro ao criar intenção",
+      }
+    }
 
     return {
       success: true,
@@ -68,16 +61,16 @@ export async function createIntentionAction(
 export async function updateIntentionStatusAction({
   id,
   status,
-}: {
-  id: string
-  status: keyof typeof INTENTIONS_STATUS
-}): Promise<ActionResponse> {
+}: Pick<Intention, "id" | "status">): Promise<ActionResponse> {
   try {
-    const [result] = await db
-      .update(intentions)
-      .set({ status: status })
-      .where(eq(intentions.id, id))
-      .returning()
+    const result = await updateIntentionStatus({ id, status })
+
+    if (!result) {
+      return {
+        success: false,
+        message: "Erro ao atualizar status da intenção",
+      }
+    }
 
     await createInviteAction({ intentionId: result.id })
 

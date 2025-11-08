@@ -5,6 +5,7 @@ import { z } from "zod"
 import { getUserByEmail, createUser } from "@/lib/dal/user"
 import { redirect } from "next/navigation"
 import { updateInviteAction } from "./invite"
+import { ActionResponse } from "@/types"
 
 const SignInSchema = z.object({
   email: z.email("Endereço de email inválido").min(1, "O email é obrigatório"),
@@ -32,16 +33,6 @@ const SignUpSchema = z
     message: "As senhas não coincidem",
     path: ["confirmPassword"],
   })
-
-export type SignInData = z.infer<typeof SignInSchema>
-export type SignUpData = z.infer<typeof SignUpSchema>
-
-export type ActionResponse = {
-  success: boolean
-  message: string
-  errors?: Record<string, string[]>
-  error?: string
-}
 
 export async function signInAction(
   formData: FormData
