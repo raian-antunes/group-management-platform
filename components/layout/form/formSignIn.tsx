@@ -27,8 +27,9 @@ export default function FormSignIn() {
 
       if (result.success) {
         toast("Login efetuado com sucesso!")
-
         router.push("/dashboard")
+      } else {
+        toast.error(result.message)
       }
 
       return result

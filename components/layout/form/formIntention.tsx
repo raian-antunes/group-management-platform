@@ -25,6 +25,10 @@ export default function FormIntention() {
 
       if (result.success) {
         toast("Intenção enviada com sucesso!")
+      } else {
+        toast.error(
+          result.message || "Ocorreu um erro. Por favor, tente novamente."
+        )
       }
 
       return result

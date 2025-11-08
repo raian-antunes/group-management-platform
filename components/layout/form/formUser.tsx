@@ -35,6 +35,10 @@ export default function FormUser({ user }: { user: User }) {
       if (result.success) {
         toast("Dados atualizados com sucesso!")
         router.refresh()
+      } else {
+        toast.error(
+          result.message || "Ocorreu um erro. Por favor, tente novamente."
+        )
       }
 
       return result

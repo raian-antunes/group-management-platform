@@ -30,6 +30,10 @@ export default function FormSignUp({ invite }: { invite: Invite }) {
       if (result.success) {
         toast("Conta criada com sucesso! Por favor, faça login.")
         router.push("/")
+      } else {
+        toast.error(
+          result.message || "Ocorreu um erro. Por favor, tente novamente."
+        )
       }
 
       return result
