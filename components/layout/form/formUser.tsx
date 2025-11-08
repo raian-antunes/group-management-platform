@@ -1,6 +1,6 @@
 "use client"
 
-import { ActionResponse, updateUser } from "@/lib/actions/user"
+import { ActionResponse, updateUserAction } from "@/lib/actions/user"
 import { useRouter } from "next/navigation"
 import { useActionState } from "react"
 import { Button } from "@/components/ui/button"
@@ -28,7 +28,7 @@ export default function FormUser({ user }: { user: User }) {
         company: formData.get("company") as string,
       }
 
-      const result = await updateUser(user.id, data)
+      const result = await updateUserAction(user.id, data)
 
       if (result.success) {
         toast("Dados atualizados com sucesso!")

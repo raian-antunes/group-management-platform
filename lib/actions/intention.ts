@@ -4,7 +4,7 @@ import { db } from "@/drizzle/config"
 import { intentions, INTENTIONS_STATUS } from "@/drizzle/schema"
 import { z } from "zod"
 import { eq } from "drizzle-orm"
-import { createInvite } from "./invite"
+import { createInviteAction } from "./invite"
 import { createNewId } from "../utils"
 
 const IntentionSchema = z.object({
@@ -23,7 +23,7 @@ export type ActionResponse = {
   error?: string
 }
 
-export async function createIntention(
+export async function createIntentionAction(
   formData: FormData
 ): Promise<ActionResponse> {
   try {
@@ -65,7 +65,7 @@ export async function createIntention(
   }
 }
 
-export async function updateIntentionStatus({
+export async function updateIntentionStatusAction({
   id,
   status,
 }: {
@@ -79,7 +79,7 @@ export async function updateIntentionStatus({
       .where(eq(intentions.id, id))
       .returning()
 
-    await createInvite({ intentionId: result.id })
+    await createInviteAction({ intentionId: result.id })
 
     return {
       success: true,

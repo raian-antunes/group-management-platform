@@ -1,9 +1,6 @@
 "use server"
 
-import { db } from "@/drizzle/config"
-import { invites } from "@/drizzle/schema"
-import { getInvite } from "@/lib/dal/invite"
-import { createNewId } from "../utils"
+import { getInvite, createInvite as createInviteDal } from "@/lib/dal/invite"
 
 export type ActionResponse = {
   success: boolean
@@ -12,21 +9,18 @@ export type ActionResponse = {
   error?: string
 }
 
-export async function createInvite({
+export async function createInviteAction({
   intentionId,
 }: {
   intentionId: string
 }): Promise<ActionResponse> {
-  const data = {
-    id: createNewId(),
-    token: createNewId(),
-    intentionId,
-  }
-
   try {
-    const [result] = await db.insert(invites).values(data).returning()
+    const result = await createInviteDal({ intentionId })
 
-    console.log("Convite criado com sucesso:", result)
+    if (!result) {
+      return { success: false, message: "Erro ao criar convite." }
+    }
+
     console.log(
       "Acesse-se URL com token para cadastro:",
       process.env.NEXT_PUBLIC_BASE_URL + "/signUp?token=" + result.token
@@ -39,6 +33,35 @@ export async function createInvite({
       success: false,
       message: "Erro ao criar convite.",
       error: "Falha ao criar convite.",
+    }
+  }
+}
+
+export async function updateInviteAction({
+  token,
+}: {
+  token: string
+}): Promise<ActionResponse> {
+  try {
+    const result = await getInvite({ token })
+
+    if (!result) {
+      return { success: false, message: "Token de convite inválido." }
+    }
+
+    if (result.usedAt !== null) {
+      return { success: false, message: "Token de convite já foi usado." }
+    }
+
+    await updateInviteAction({ token })
+
+    return { success: true, message: "Convite atualizado com sucesso." }
+  } catch (error) {
+    console.error("Erro ao atualizar convite:", error)
+    return {
+      success: false,
+      message: "Erro ao atualizar convite.",
+      error: "Falha ao atualizar convite.",
     }
   }
 }

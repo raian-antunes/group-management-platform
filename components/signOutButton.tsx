@@ -1,7 +1,7 @@
 "use client"
 
 import { useTransition } from "react"
-import { signOut } from "@/lib/actions/auth"
+import { signOutAction } from "@/lib/actions/auth"
 import { Button } from "./ui/button"
 import { Spinner } from "./ui/spinner"
 
@@ -10,7 +10,7 @@ export default function SignOutButton() {
 
   const handleSignOut = () => {
     startTransition(async () => {
-      await signOut()
+      await signOutAction()
     })
   }
 

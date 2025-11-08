@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { INTENTIONS_STATUS } from "@/drizzle/schema"
-import { updateIntentionStatus } from "@/lib/actions/intention"
+import { updateIntentionStatusAction } from "@/lib/actions/intention"
 
 export default async function IntentionPage({
   params,
@@ -42,13 +42,13 @@ export default async function IntentionPage({
 
   async function handleApprove() {
     "use server"
-    await updateIntentionStatus({ id, status: "approved" })
+    await updateIntentionStatusAction({ id, status: "approved" })
     redirect("/dashboard/intentions")
   }
 
   async function handleReject() {
     "use server"
-    await updateIntentionStatus({ id, status: "rejected" })
+    await updateIntentionStatusAction({ id, status: "rejected" })
     redirect("/dashboard/intentions")
   }
   return (

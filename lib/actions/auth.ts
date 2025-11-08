@@ -4,6 +4,7 @@ import { createSession, deleteSession, verifyPassword } from "@/lib/auth"
 import { z } from "zod"
 import { getUserByEmail, createUser } from "@/lib/dal/user"
 import { redirect } from "next/navigation"
+import { updateInviteAction } from "./invite"
 
 const SignInSchema = z.object({
   email: z.email("Endereço de email inválido").min(1, "O email é obrigatório"),
@@ -42,7 +43,9 @@ export type ActionResponse = {
   error?: string
 }
 
-export async function signIn(formData: FormData): Promise<ActionResponse> {
+export async function signInAction(
+  formData: FormData
+): Promise<ActionResponse> {
   try {
     const data = {
       email: formData.get("email") as string,
@@ -96,7 +99,7 @@ export async function signIn(formData: FormData): Promise<ActionResponse> {
   }
 }
 
-export async function signUp(
+export async function signUpAction(
   formData: FormData,
   token: string
 ): Promise<ActionResponse> {
@@ -140,6 +143,12 @@ export async function signUp(
       }
     }
 
+    const updateInviteResult = await updateInviteAction({ token })
+
+    if (!updateInviteResult.success) {
+      return updateInviteResult
+    }
+
     // Create session for the newly registered user
     await createSession(user.id)
 
@@ -157,7 +166,7 @@ export async function signUp(
   }
 }
 
-export async function signOut(): Promise<void> {
+export async function signOutAction(): Promise<void> {
   try {
     await deleteSession()
   } catch (error) {

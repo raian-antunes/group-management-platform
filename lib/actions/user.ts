@@ -24,25 +24,7 @@ export type ActionResponse = {
   error?: string
 }
 
-export async function createUser(email: string, password: string) {
-  const hashedPassword = await hashPassword(password)
-  const id = nanoid()
-
-  try {
-    await db.insert(users).values({
-      id,
-      email,
-      password: hashedPassword,
-    })
-
-    return { id, email }
-  } catch (error) {
-    console.error("Error creating user:", error)
-    return null
-  }
-}
-
-export async function updateUser(
+export async function updateUserAction(
   userId: string,
   formData: Partial<UserData>
 ): Promise<ActionResponse> {

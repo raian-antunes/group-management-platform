@@ -1,6 +1,6 @@
 "use client"
 
-import { ActionResponse, createIntention } from "@/lib/actions/intention"
+import { ActionResponse, createIntentionAction } from "@/lib/actions/intention"
 import { useActionState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -19,7 +19,7 @@ export default function FormIntention() {
     FormData
   >(async (prevState: ActionResponse, formData: FormData) => {
     try {
-      const result = await createIntention(formData)
+      const result = await createIntentionAction(formData)
 
       if (result.success) {
         toast("Intenção enviada com sucesso!")

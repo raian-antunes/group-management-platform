@@ -1,6 +1,6 @@
 "use client"
 
-import { ActionResponse, signIn } from "@/lib/actions/auth"
+import { ActionResponse, signInAction } from "@/lib/actions/auth"
 import { useRouter } from "next/navigation"
 import { useActionState } from "react"
 import { Button } from "@/components/ui/button"
@@ -21,7 +21,7 @@ export default function FormSignIn() {
     FormData
   >(async (prevState: ActionResponse, formData: FormData) => {
     try {
-      const result = await signIn(formData)
+      const result = await signInAction(formData)
 
       if (result.success) {
         toast("Login efetuado com sucesso!")
