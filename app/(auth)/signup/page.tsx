@@ -16,16 +16,17 @@ import useValidateToken from "@/hooks/useValidateToken"
 const SignupPage = () => {
   const searchParams = useSearchParams()
   const token = searchParams.get("token") as string
-  const { invite, isValidToken, isValidating } = useValidateToken(token)
+  const { invite, message, isValidToken, isValidating } =
+    useValidateToken(token)
 
   if (isValidating || !isValidToken) {
     return (
       <Card className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <CardContent className="p-6">
           <div className="flex items-center justify-center">
-            {isValidating && <h1 className="text-2xl">Validando convite...</h1>}
+            {isValidating && <h1 className="text-2xl">Validando token...</h1>}
             {!isValidating && !isValidToken && (
-              <h1 className="text-2xl">Convite inválido</h1>
+              <h1 className="text-2xl">{message}</h1>
             )}
           </div>
         </CardContent>
