@@ -16,7 +16,7 @@ import useValidateToken from "@/hooks/useValidateToken"
 const SignupPage = () => {
   const searchParams = useSearchParams()
   const token = searchParams.get("token") as string
-  const { isValidToken, isValidating } = useValidateToken(token)
+  const { invite, isValidToken, isValidating } = useValidateToken(token)
 
   if (isValidating || !isValidToken) {
     return (
@@ -41,9 +41,7 @@ const SignupPage = () => {
           Insira seu email e uma senha abaixo para criar uma nova conta
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <FormSignUp token={token} />
-      </CardContent>
+      <CardContent>{invite && <FormSignUp invite={invite} />}</CardContent>
       <CardFooter></CardFooter>
     </Card>
   )

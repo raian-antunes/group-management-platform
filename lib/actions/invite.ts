@@ -1,7 +1,7 @@
 "use server"
 
 import { Invite } from "@/drizzle/schema"
-import { getInvite, createInvite } from "@/lib/dal/invite"
+import { getInvite, createInvite, updateInvite } from "@/lib/dal/invite"
 import { ActionResponse } from "@/types"
 
 export async function createInviteAction({
@@ -31,10 +31,12 @@ export async function createInviteAction({
 }
 
 export async function updateInviteAction({
-  token,
-}: Pick<Invite, "token">): Promise<ActionResponse> {
+  invite,
+}: {
+  invite: Invite
+}): Promise<ActionResponse> {
   try {
-    const result = await getInvite({ token })
+    const result = await getInvite({ token: invite.token })
 
     if (!result) {
       return { success: false, message: "Token de convite inválido." }
@@ -44,7 +46,7 @@ export async function updateInviteAction({
       return { success: false, message: "Token de convite já foi usado." }
     }
 
-    await updateInviteAction({ token })
+    await updateInvite({ token: invite.token })
 
     return { success: true, message: "Convite atualizado com sucesso." }
   } catch (error) {

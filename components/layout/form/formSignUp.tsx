@@ -10,13 +10,14 @@ import { Label } from "@radix-ui/react-label"
 import { toast } from "sonner"
 import { ActionResponse } from "@/types"
 import ErrorMessage from "@/components/errorMessage"
+import { Invite } from "@/drizzle/schema"
 
 const initialState: ActionResponse = {
   success: false,
   message: "",
 }
 
-export default function FormSignUp({ token }: { token: string }) {
+export default function FormSignUp({ invite }: { invite: Invite }) {
   const router = useRouter()
 
   const [state, formAction, isPending] = useActionState<
@@ -24,7 +25,7 @@ export default function FormSignUp({ token }: { token: string }) {
     FormData
   >(async (prevState: ActionResponse, formData: FormData) => {
     try {
-      const result = await signUpAction(formData, token)
+      const result = await signUpAction(formData, invite)
 
       if (result.success) {
         toast("Conta criada com sucesso! Por favor, faça login.")

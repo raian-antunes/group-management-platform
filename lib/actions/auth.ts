@@ -6,6 +6,8 @@ import { redirect } from "next/navigation"
 import { updateInviteAction } from "./invite"
 import { ActionResponse } from "@/types"
 import { SignInSchema, SignUpSchema } from "../schemas/auth"
+import { Invite } from "@/drizzle/schema"
+import { getIntention } from "../dal/intention"
 
 export async function signInAction(
   formData: FormData
@@ -65,7 +67,7 @@ export async function signInAction(
 
 export async function signUpAction(
   formData: FormData,
-  token: string
+  invite: Invite
 ): Promise<ActionResponse> {
   try {
     // Extract data from form
@@ -85,7 +87,6 @@ export async function signUpAction(
       }
     }
 
-    // Check if user already exists
     const existingUser = await getUserByEmail(data.email)
     if (existingUser) {
       return {
@@ -97,8 +98,22 @@ export async function signUpAction(
       }
     }
 
-    // Create new user
-    const user = await createUser(data.email, data.password)
+    const intention = await getIntention(invite.intentionId)
+
+    if (!intention) {
+      return {
+        success: false,
+        message: "Intenção não encontrada",
+      }
+    }
+
+    const user = await createUser({
+      name: intention.name,
+      email: data.email,
+      password: data.password,
+      company: intention.company,
+    })
+
     if (!user) {
       return {
         success: false,
@@ -107,7 +122,7 @@ export async function signUpAction(
       }
     }
 
-    const updateInviteResult = await updateInviteAction({ token })
+    const updateInviteResult = await updateInviteAction({ invite })
 
     if (!updateInviteResult.success) {
       return updateInviteResult

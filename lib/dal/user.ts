@@ -6,10 +6,9 @@ import { createNewId } from "../utils"
 import { cache } from "react"
 
 export async function createUser(
-  email: Pick<User, "email">["email"],
-  password: Pick<User, "password">["password"]
+  data: Omit<User, "id" | "createdAt" | "role">
 ): Promise<User | null> {
-  const hashedPassword = await hashPassword(password)
+  const hashedPassword = await hashPassword(data.password)
   const id = createNewId()
 
   try {
@@ -17,11 +16,11 @@ export async function createUser(
       .insert(users)
       .values({
         id,
-        name: "",
-        email,
+        name: data.name,
+        email: data.email,
         password: hashedPassword,
         role: USER_ROLE.user.value,
-        company: "",
+        company: data.company,
       })
       .returning()
 
