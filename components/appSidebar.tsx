@@ -3,6 +3,7 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -16,8 +17,8 @@ type AppSidebarProps = {
 }
 
 const MENU = {
-  user: [{ label: "Editar Perfil", url: "/dashboard/user/edit" }],
-  admin: [{ label: "Gerenciar Intenção", url: "/dashboard/intentions" }],
+  user: [{ label: "Dados do Usuário", url: "/dashboard/user/edit" }],
+  admin: [{ label: "Intenções", url: "/dashboard/intentions" }],
 }
 
 export async function AppSidebar({ role }: AppSidebarProps) {
@@ -29,6 +30,7 @@ export async function AppSidebar({ role }: AppSidebarProps) {
         <SidebarGroup>
           <SidebarHeader>Dashboard ({role})</SidebarHeader>
           <SidebarSeparator className="my-2" />
+          <SidebarGroupLabel>Menu</SidebarGroupLabel>
           <SidebarMenu>
             {items.map((item) => (
               <SidebarMenuItem key={item.label}>
