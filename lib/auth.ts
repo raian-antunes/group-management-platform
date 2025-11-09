@@ -2,6 +2,7 @@ import { compare, hash } from "bcrypt"
 import { cookies } from "next/headers"
 import * as jose from "jose"
 import { cache } from "react"
+import { User } from "@/drizzle/schema"
 
 // JWT types
 interface JWTPayload {
@@ -70,15 +71,18 @@ export async function shouldRefreshToken(token: string): Promise<boolean> {
 }
 
 // Create a session using JWT
-export async function createSession(userId: string) {
+export async function createSession(
+  userId: Pick<User, "id">["id"],
+  userRole: Pick<User, "role">["role"]
+) {
   try {
     // Create JWT with user data
-    const token = await generateJWT({ userId })
+    const token = await generateJWT({ userId, userRole })
 
     // Store JWT in a cookie
     const cookieStore = await cookies()
     cookieStore.set({
-      name: "auth_token",
+      name: "auth-token",
       value: token,
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -98,12 +102,14 @@ export async function createSession(userId: string) {
 export const getSession = cache(async () => {
   try {
     const cookieStore = await cookies()
-    const token = cookieStore.get("auth_token")?.value
+    const token = cookieStore.get("auth-token")?.value
 
     if (!token) return null
     const payload = await verifyJWT(token)
 
-    return payload ? { userId: payload.userId } : null
+    return payload
+      ? { userId: payload.userId, userRole: payload.userRole }
+      : null
   } catch (error) {
     // Handle the specific prerendering error
     if (
@@ -121,5 +127,5 @@ export const getSession = cache(async () => {
 // Delete session by clearing the JWT cookie
 export async function deleteSession() {
   const cookieStore = await cookies()
-  cookieStore.delete("auth_token")
+  cookieStore.delete("auth-token")
 }

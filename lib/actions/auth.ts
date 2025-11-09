@@ -49,7 +49,7 @@ export async function signInAction(
       }
     }
 
-    await createSession(user.id)
+    await createSession(user.id, user.role)
 
     return {
       success: true,
@@ -128,8 +128,7 @@ export async function signUpAction(
       return updateInviteResult
     }
 
-    // Create session for the newly registered user
-    await createSession(user.id)
+    await createSession(user.id, user.role)
 
     return {
       success: true,
