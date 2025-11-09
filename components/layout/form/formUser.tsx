@@ -92,7 +92,7 @@ export default function FormUser({ user }: { user: User }) {
             placeholder="email@dominio.com"
             defaultValue={user.email}
             required
-            disabled={isPending}
+            disabled
             className={state?.errors?.email ? "border-red-500" : ""}
           />
           <ErrorMessage id="email-error" message={state?.errors?.email} />
