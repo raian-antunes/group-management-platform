@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import type { NextRequest } from "next/server"
+import { NextRequest } from "next/server"
 import * as jose from "jose"
 import { USER_ROLE } from "./drizzle/schema"
 
@@ -26,17 +26,24 @@ export async function proxy(request: NextRequest) {
       const { payload } = await jose.jwtVerify(token, JWT_SECRET)
       const role = payload.userRole as string
 
-      if (!request.nextUrl.pathname.endsWith("/dashboard")) {
-        if (role === USER_ROLE.admin.value) {
-          if (!request.nextUrl.pathname.startsWith("/dashboard/intentions")) {
-            return new NextResponse(null, { status: 403 })
-          }
-        }
+      if (request.nextUrl.pathname.endsWith("/dashboard")) {
+        return NextResponse.redirect(
+          new URL("/dashboard/announcements", request.url)
+        )
+      }
+      if (request.nextUrl.pathname.startsWith("/dashboard/announcements")) {
+        return NextResponse.next()
+      }
 
-        if (role === USER_ROLE.user.value) {
-          if (!request.nextUrl.pathname.startsWith("/dashboard/user/edit")) {
-            return new NextResponse(null, { status: 403 })
-          }
+      if (role === USER_ROLE.admin.value) {
+        if (!request.nextUrl.pathname.startsWith("/dashboard/intentions")) {
+          return new NextResponse(null, { status: 403 })
+        }
+      }
+
+      if (role === USER_ROLE.user.value) {
+        if (!request.nextUrl.pathname.startsWith("/dashboard/user/edit")) {
+          return new NextResponse(null, { status: 403 })
         }
       }
     } catch {

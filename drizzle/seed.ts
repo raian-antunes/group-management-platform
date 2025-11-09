@@ -49,18 +49,100 @@ async function seed() {
   console.log(`- Admin: ${adminUser.email} (password: teste123)`)
   console.log(`- User: ${memberUser.email} (password: teste123)`)
 
-  await db
-    .insert(intentions)
-    .values({
+  // Create announcements
+  const announcementsData = [
+    {
+      message:
+        "Olá pessoal! É com grande prazer que damos início a essa nova jornada de gestão colaborativa. Esta plataforma foi criada para facilitar nossa comunicação e organização em grupo.",
+    },
+    {
+      message:
+        "Acabamos de lançar uma nova funcionalidade que permite a criação de subgrupos especializados. Agora vocês podem organizar projetos específicos com mais facilidade.",
+    },
+    {
+      message:
+        "Informamos que haverá manutenção nos servidores no próximo sábado das 2h às 6h da manhã. Durante esse período, a plataforma ficará temporariamente indisponível.",
+    },
+    {
+      message:
+        "Convido todos para participarem do workshop sobre gestão ágil de projetos que acontecerá na próxima terça-feira às 14h. O evento será online e teremos certificação.",
+    },
+    {
+      message:
+        "As políticas de uso da plataforma foram atualizadas para incluir novas diretrizes de segurança e privacidade. Por favor, revisem o documento na seção de configurações.",
+    },
+    {
+      message:
+        "Obrigado a todos que participaram da pesquisa! Com base no feedback recebido, implementaremos melhorias na interface e novas funcionalidades nas próximas semanas.",
+    },
+    {
+      message:
+        "A partir desta semana, a plataforma oferece integração nativa com Slack, Microsoft Teams e Google Workspace. Configurem suas integrações na área de configurações.",
+    },
+    {
+      message:
+        "Dica da semana: Utilizem as tags para categorizar seus projetos e facilitar a busca. Isso tornará a navegação muito mais eficiente para toda a equipe.",
+    },
+    {
+      message:
+        "Dica da semana: Utilizem as tags para categorizar seus projetos e facilitar a busca. Isso tornará a navegação muito mais eficiente para toda a equipe.",
+    },
+    {
+      message:
+        "Dica da semana: Utilizem as tags para categorizar seus projetos e facilitar a busca. Isso tornará a navegação muito mais eficiente para toda a equipe.",
+    },
+    {
+      message:
+        "Implementamos um sistema de notificações mais inteligente que se adapta ao seu padrão de uso. Vocês podem personalizar as preferências no menu de configurações.",
+    },
+    {
+      message:
+        "Atingimos a marca de 1000 usuários ativos na plataforma! Obrigado por fazerem parte dessa jornada. Continuaremos trabalhando para oferecer a melhor experiência possível.",
+    },
+    {
+      message:
+        "Novos recursos de edição colaborativa foram adicionados. Agora é possível trabalhar em documentos simultaneamente com outros membros da equipe em tempo real.",
+    },
+    {
+      message:
+        "Lançamos um programa de feedback contínuo onde vocês podem sugerir melhorias e reportar problemas diretamente através do botão de feedback na barra lateral.",
+    },
+    {
+      message:
+        "Não percam nosso webinar sobre melhores práticas em gestão de equipes distribuídas. Será na próxima quinta-feira às 16h com especialistas renomados da área.",
+    },
+    {
+      message:
+        "Todos os dados da plataforma são automaticamente backupeados diariamente e criptografados. Nossa infraestrutura segue os mais altos padrões de segurança da indústria.",
+    },
+    {
+      message:
+        "Adicionamos 15 novos templates de projeto para diferentes áreas: marketing, desenvolvimento, vendas, RH e mais. Experimentem para acelerar a criação de seus projetos.",
+    },
+  ]
+
+  let daysAgo
+  let randomDate
+  for (const announcement of announcementsData) {
+    daysAgo = Math.floor(Math.random() * 90)
+    randomDate = new Date()
+    randomDate.setDate(randomDate.getDate() - daysAgo)
+    randomDate.setHours(
+      Math.floor(Math.random() * 24),
+      Math.floor(Math.random() * 60),
+      0,
+      0
+    )
+
+    await db.insert(announcements).values({
       id: createNewId(),
-      name: "Usuário Admin",
-      email: "user@user.com",
-      company: "Empresa Admin",
-      motivation: "Quero gerenciar meu grupo de forma eficiente.",
-      status: "pending",
+      userId: adminUserId,
+      message: announcement.message,
+      createdAt: randomDate,
     })
-    .returning()
-    .then((rows) => rows[0])
+  }
+
+  console.log(`- Created ${announcementsData.length} announcements`)
 
   // Create 20 additional intentions
   const intentionsData = [
@@ -229,7 +311,7 @@ async function seed() {
     })
   }
 
-  console.log(`- Total: ${intentionsData.length + 1} intentions created`)
+  console.log(`- Created ${intentionsData.length + 1} intentions`)
   console.log("Database seeding completed!")
   process.exit(0)
 }
