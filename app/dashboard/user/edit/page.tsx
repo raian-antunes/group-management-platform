@@ -10,13 +10,15 @@ export default async function EditUserPage() {
   }
 
   return (
-    <Card className="w-full max-w-lg">
-      <CardHeader>
-        <CardTitle>Dados do usuário</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <FormUser user={user} />
-      </CardContent>
-    </Card>
+    <div className="flex flex-col gap-6 items-center w-full px-4 py-8">
+      <Card className="w-full max-w-lg">
+        <CardHeader>
+          <CardTitle>Dados do usuário</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <FormUser user={user} />
+        </CardContent>
+      </Card>
+    </div>
   )
 }
