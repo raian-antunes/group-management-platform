@@ -1,6 +1,6 @@
 "use server"
 
-import { Intention } from "@/drizzle/schema"
+import { Intention, INTENTIONS_STATUS } from "@/drizzle/schema"
 import { createInviteAction } from "./invite"
 import { createIntention, updateIntentionStatus } from "../dal/intention"
 import { ActionResponse } from "@/types"
@@ -65,7 +65,9 @@ export async function updateIntentionStatusAction({
       }
     }
 
-    await createInviteAction({ intentionId: result.id })
+    if (status === INTENTIONS_STATUS.approved.value) {
+      await createInviteAction({ intentionId: result.id })
+    }
 
     return {
       success: true,
