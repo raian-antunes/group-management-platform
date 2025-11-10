@@ -11,8 +11,6 @@ import { getAnnouncements } from "@/lib/dal/announcement"
 export default async function AnnouncementPage() {
   const items = await getAnnouncements()
 
-  console.log(items)
-
   return (
     <div className="flex flex-col justify-center items-center">
       <h1 className="mb-6 text-4xl font-bold justify-center flex">
