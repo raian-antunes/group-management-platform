@@ -6,7 +6,7 @@ import { eq } from "drizzle-orm"
 
 export const GET = async (
   request: NextRequest,
-  { params }: { params: { email: string } }
+  { params }: { params: Promise<{ email: string }> }
 ) => {
   try {
     const session = await getSession()
@@ -18,7 +18,7 @@ export const GET = async (
       )
     }
 
-    const { email } = params
+    const { email } = await params
 
     const [result] = await db.select().from(users).where(eq(users.email, email))
 
