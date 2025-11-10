@@ -50,7 +50,7 @@ describe("Landing Page", () => {
     })
 
     it("aplica estilos corretos no título", () => {
-      const { container } = render(<LandingPage />)
+      render(<LandingPage />)
       const title = screen.getByText(/Plataforma de Gestão para/i)
       expect(title).toHaveClass("md:text-4xl", "font-bold")
     })
