@@ -26,11 +26,13 @@ export default function FormUser({ user }: { user: User }) {
     try {
       const data = {
         name: formData.get("name") as string,
-        email: formData.get("email") as string,
         company: formData.get("company") as string,
       }
 
-      const result = await updateUserAction(user.id, data)
+      const result = await updateUserAction(user.id, {
+        ...data,
+        email: user.email,
+      })
 
       if (result.success) {
         toast("Dados atualizados com sucesso!")
