@@ -184,6 +184,47 @@ npm start
 - ✅ Gestão de usuários
 - ✅ Sistema de convites
 - ✅ Interface responsiva
+- ✅ Testes automatizados com 92%+ de cobertura
+
+## 🧪 Testes
+
+O projeto possui uma suíte completa de testes automatizados:
+
+### Estrutura de Testes
+
+```
+__tests__/
+├── app/                    # Testes das páginas
+│   ├── (auth)/            # Testes de autenticação
+│   ├── (landing)/         # Testes da landing page
+│   ├── api/               # Testes das rotas API
+│   └── dashboard/         # Testes do dashboard
+├── components/            # Testes dos componentes
+├── hooks/                 # Testes dos hooks customizados
+└── lib/                   # Testes dos utilitários
+```
+
+### Executando os Testes
+
+```bash
+# Modo watch (desenvolvimento)
+npm run test
+
+# Interface visual interativa
+npm run test:ui
+
+# Gerar relatório de cobertura
+npm run test:coverage
+```
+
+### Cobertura Atual
+
+- **Statements:** 92.95%
+- **Branches:** 98.5%
+- **Functions:** 78.26%
+- **Lines:** 95.39%
+
+O relatório de cobertura é gerado na pasta `coverage/` e pode ser visualizado abrindo o arquivo `coverage/index.html` no navegador.
 
 ## 🔐 Segurança
 
@@ -191,22 +232,3 @@ npm start
 - Autenticação baseada em JWT
 - Validação de dados com schemas
 - Proteção de rotas (middleware)
-
-## 📚 Documentação Adicional
-
-Para mais informações sobre Next.js:
-
-- [Documentação do Next.js](https://nextjs.org/docs)
-- [Tutorial Interativo do Next.js](https://nextjs.org/learn)
-- [Repositório do Next.js no GitHub](https://github.com/vercel/next.js)
-
-## 🚢 Deploy
-
-A forma mais fácil de fazer deploy é usando a [Vercel Platform](https://vercel.com/new):
-
-1. Faça push do código para o GitHub
-2. Importe o projeto na Vercel
-3. Configure as variáveis de ambiente (`DATABASE_URL` e `JWT_SECRET`)
-4. Deploy!
-
-Consulte a [documentação de deployment do Next.js](https://nextjs.org/docs/app/building-your-application/deploying) para mais detalhes.
