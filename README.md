@@ -126,25 +126,54 @@ npm start
 
 ## 🛠️ Scripts Disponíveis
 
+### Desenvolvimento
+
 - `npm run dev` - Inicia o servidor de desenvolvimento
 - `npm run build` - Cria o build de produção
 - `npm start` - Inicia o servidor de produção
 - `npm run lint` - Executa o linter
+
+### Banco de Dados
+
 - `npm run db:generate` - Gera migrações do banco de dados
 - `npm run db:push` - Aplica as migrações no banco
 - `npm run db:migrate` - Executa as migrações
 - `npm run db:seed` - Popula o banco com dados de teste
 
+### Testes
+
+- `npm run test` - Executa os testes em modo watch
+- `npm run test:ui` - Abre a interface visual do Vitest
+- `npm run test:coverage` - Executa os testes e gera relatório de cobertura
+
 ## 🔧 Tecnologias Utilizadas
+
+### Core
 
 - **Framework:** [Next.js 16](https://nextjs.org/)
 - **Linguagem:** [TypeScript](https://www.typescriptlang.org/)
 - **Banco de Dados:** [PostgreSQL](https://www.postgresql.org/)
 - **ORM:** [Drizzle ORM](https://orm.drizzle.team/)
+
+### Autenticação & Segurança
+
 - **Autenticação:** [JWT (Jose)](https://github.com/panva/jose)
+- **Criptografia:** [bcrypt](https://www.npmjs.com/package/bcrypt)
+
+### Interface & Estilização
+
 - **Estilização:** [Tailwind CSS](https://tailwindcss.com/)
 - **UI Components:** [Radix UI](https://www.radix-ui.com/)
 - **Tabelas:** [TanStack Table](https://tanstack.com/table)
+- **Tema:** [next-themes](https://github.com/pacocoursey/next-themes)
+- **Toast Notifications:** [Sonner](https://sonner.emilkowal.ski/)
+
+### Testes
+
+- **Test Framework:** [Vitest](https://vitest.dev/)
+- **Testing Library:** [React Testing Library](https://testing-library.com/react)
+- **Environment:** [jsdom](https://github.com/jsdom/jsdom)
+- **Coverage:** [v8](https://v8.dev/blog/javascript-code-coverage)
 
 ## 📝 Funcionalidades
 
