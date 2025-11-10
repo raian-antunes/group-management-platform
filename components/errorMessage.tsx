@@ -6,6 +6,7 @@ const ErrorMessage = ({
   message: string[] | undefined
 }) => {
   if (!message) return null
+  if (message.length === 0) return null
 
   return (
     <p id={id} className="text-sm text-red-500">
