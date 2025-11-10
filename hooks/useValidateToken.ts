@@ -1,9 +1,9 @@
 import { validateInviteToken } from "@/lib/actions/invite"
-import { Invite } from "@/drizzle/schema"
 import { useEffect, useState } from "react"
+import { InviteWithIntention } from "@/lib/dal/invite"
 
 export default function useValidateToken(token: string) {
-  const [invite, setInvite] = useState<Invite | null>(null)
+  const [invite, setInvite] = useState<InviteWithIntention | null>(null)
   const [isValidating, setIsValidating] = useState(true)
   const [isValidToken, setIsValidToken] = useState(false)
   const [message, setMessage] = useState("")

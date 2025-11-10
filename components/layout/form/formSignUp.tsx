@@ -10,14 +10,18 @@ import { Label } from "@radix-ui/react-label"
 import { toast } from "sonner"
 import { ActionResponse } from "@/types"
 import ErrorMessage from "@/components/errorMessage"
-import { Invite } from "@/drizzle/schema"
+import { InviteWithIntention } from "@/lib/dal/invite"
 
 const initialState: ActionResponse = {
   success: false,
   message: "",
 }
 
-export default function FormSignUp({ invite }: { invite: Invite }) {
+export default function FormSignUp({
+  invite,
+}: {
+  invite: InviteWithIntention
+}) {
   const router = useRouter()
 
   const [state, formAction, isPending] = useActionState<
@@ -56,10 +60,10 @@ export default function FormSignUp({ invite }: { invite: Invite }) {
             id="email"
             name="email"
             type="email"
-            autoComplete="email"
-            placeholder="email@dominio.com"
+            value={invite.intention.email}
+            readOnly
             required
-            disabled={isPending}
+            disabled
             className={state?.errors?.email ? "border-red-500" : ""}
           />
           <ErrorMessage id="email-error" message={state?.errors?.email} />

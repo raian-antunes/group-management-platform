@@ -14,9 +14,15 @@ export async function createInviteAction({
       return { success: false, message: "Erro ao criar convite." }
     }
 
-    console.log(
-      "Acesse-se URL com token para cadastro:",
-      process.env.NEXT_PUBLIC_BASE_URL + "/signup?token=" + result.token
+    console.warn(
+      "------------------------------------------------------------------------------------------------------------------"
+    )
+    console.warn(
+      "| Acesse-se URL com token para cadastro:",
+      process.env.NEXT_PUBLIC_BASE_URL + "/signup?token=" + result.token + " | "
+    )
+    console.warn(
+      "------------------------------------------------------------------------------------------------------------------"
     )
 
     return { success: true, message: "Convite criado com sucesso." }

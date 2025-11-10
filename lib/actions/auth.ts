@@ -6,8 +6,8 @@ import { redirect } from "next/navigation"
 import { updateInviteAction } from "./invite"
 import { ActionResponse } from "@/types"
 import { SignInSchema, SignUpSchema } from "../schemas/auth"
-import { Invite } from "@/drizzle/schema"
 import { getIntention } from "../dal/intention"
+import { InviteWithIntention } from "../dal/invite"
 
 export async function signInAction(
   formData: FormData
@@ -67,18 +67,20 @@ export async function signInAction(
 
 export async function signUpAction(
   formData: FormData,
-  invite: Invite
+  invite: InviteWithIntention
 ): Promise<ActionResponse> {
   try {
     // Extract data from form
     const data = {
-      email: formData.get("email") as string,
       password: formData.get("password") as string,
       confirmPassword: formData.get("confirmPassword") as string,
     }
 
     // Validate with Zod
-    const validationResult = SignUpSchema.safeParse(data)
+    const validationResult = SignUpSchema.safeParse({
+      email: invite.intention.email,
+      ...data,
+    })
     if (!validationResult.success) {
       return {
         success: false,
@@ -87,7 +89,7 @@ export async function signUpAction(
       }
     }
 
-    const existingUser = await getUserByEmail(data.email)
+    const existingUser = await getUserByEmail(invite.intention.email)
     if (existingUser) {
       return {
         success: false,
@@ -109,9 +111,10 @@ export async function signUpAction(
 
     const user = await createUser({
       name: intention.name,
-      email: data.email,
+      email: invite.intention.email,
       password: data.password,
       company: intention.company,
+      inviteId: invite.id,
     })
 
     if (!user) {

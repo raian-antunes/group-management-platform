@@ -1,22 +1,23 @@
-import { db } from "@/drizzle/config"
-import { Invite, invites } from "@/drizzle/schema"
-import { eq } from "drizzle-orm"
-import { createNewId } from "../utils"
+import { Intention, Invite } from "@/drizzle/schema"
+import { apiClient } from "../apiClient"
+
+export type InviteWithIntention = Invite & {
+  intention: Intention
+}
 
 export const getInvite = async ({
   token,
 }: {
   token: Pick<Invite, "token">["token"]
-}): Promise<Invite | null> => {
+}): Promise<InviteWithIntention | null> => {
   try {
-    const [result] = await db
-      .select()
-      .from(invites)
-      .where(eq(invites.token, token))
+    const result = await apiClient
+      .get(`/invite?token=${token}`)
+      .then((res) => res.data)
 
-    return result || null
+    return result
   } catch (error) {
-    console.log("Error getting the invite:", error)
+    console.error("Error getting the invite:", error)
     return null
   }
 }
@@ -27,14 +28,15 @@ export const createInvite = async ({
   intentionId: Pick<Invite, "intentionId">["intentionId"]
 }): Promise<Invite | null> => {
   try {
-    const [result] = await db
-      .insert(invites)
-      .values({ id: createNewId(), token: createNewId(), intentionId })
-      .returning()
+    const result = await apiClient
+      .post(`/invite`, {
+        intentionId: intentionId,
+      })
+      .then((res) => res.data)
 
     return result || null
   } catch (error) {
-    console.log("Error creating the invite:", error)
+    console.error("Error creating the invite:", error)
     return null
   }
 }
@@ -45,17 +47,13 @@ export const updateInvite = async ({
   token: Pick<Invite, "token">["token"]
 }): Promise<Invite | null> => {
   try {
-    const [result] = await db
-      .update(invites)
-      .set({
-        usedAt: new Date(),
-      })
-      .where(eq(invites.token, token))
-      .returning()
+    const result = await apiClient
+      .put(`/invite/${token}`, {})
+      .then((res) => res.data)
 
     return result || null
   } catch (error) {
-    console.log("Error updating the invite:", error)
+    console.error("Error updating the invite:", error)
     return null
   }
 }

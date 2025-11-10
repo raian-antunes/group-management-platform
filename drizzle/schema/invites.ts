@@ -11,7 +11,7 @@ export const invites = pgTable("invites", {
 })
 
 export const invitesRelations = relations(invites, ({ one }) => ({
-  intentions: one(intentions, {
+  intention: one(intentions, {
     fields: [invites.intentionId],
     references: [intentions.id],
   }),
