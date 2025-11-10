@@ -8,7 +8,7 @@ import { UserSchema } from "../schemas/user"
 
 export async function updateUserAction(
   userId: Pick<User, "id">["id"],
-  formData: Omit<User, "id" | "password" | "role" | "createdAt">
+  formData: Omit<User, "id" | "password" | "role" | "createdAt" | "inviteId">
 ): Promise<ActionResponse> {
   try {
     const UpdateIssueSchema = UserSchema.partial()
