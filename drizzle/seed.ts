@@ -1,7 +1,17 @@
 import "dotenv/config"
 import { hash } from "bcrypt"
 import { db } from "./config"
-import { announcements, intentions, invites, users } from "./schema"
+import {
+  announcements,
+  intentions,
+  invites,
+  meetings,
+  meetingsToUsers,
+  payments,
+  plans,
+  subscriptions,
+  users,
+} from "./schema"
 import { createNewId } from "@/lib/utils"
 
 async function seed() {
@@ -9,8 +19,15 @@ async function seed() {
 
   // Clean up existing data
   await db.delete(announcements)
-  await db.delete(invites)
   await db.delete(intentions)
+  await db.delete(invites)
+  await db.delete(meetings)
+  await db.delete(meetingsToUsers)
+  await db.delete(payments)
+  await db.delete(subscriptions)
+  await db.delete(plans)
+  await db.delete(invites)
+  await db.delete(invites)
   await db.delete(users)
 
   // Create demo users
